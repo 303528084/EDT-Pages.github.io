@@ -4931,7 +4931,6 @@
 		.chain-proxy-modal {
 			--chain-accent: #8b5cf6;
 			--chain-accent-strong: #6d28d9;
-			--chain-accent-soft: rgba(139, 92, 246, 0.1);
 			--chain-accent-line: rgba(139, 92, 246, 0.35);
 			--chain-surface: #f8fafc;
 			--chain-surface-raised: #ffffff;
@@ -5196,30 +5195,6 @@
 			color: #fdba74;
 		}
 
-		.chain-lib-entry {
-			width: 100%;
-			margin-top: 2px;
-			padding: 10px 12px;
-			border: 1px dashed var(--chain-accent-line);
-			border-radius: 9px;
-			background: var(--chain-accent-soft);
-			color: var(--chain-accent-strong);
-			font-size: 12.5px;
-			font-weight: 600;
-			text-align: left;
-			cursor: pointer;
-			transition: background 0.18s ease, border-color 0.18s ease;
-		}
-
-		.chain-lib-entry:hover {
-			border-color: var(--chain-accent);
-			background: rgba(139, 92, 246, 0.16);
-		}
-
-		html.dark-mode .chain-lib-entry {
-			color: #d8b4fe;
-		}
-
 		.chain-verify-meta {
 			display: flex;
 			flex: 0 1 auto;
@@ -5265,7 +5240,6 @@
 		.chain-source-option:focus-visible,
 		.chain-lib-protocol:focus-visible,
 		.chain-lib-refresh:focus-visible,
-		.chain-lib-entry:focus-visible,
 		.chain-lib-field select:focus-visible {
 			outline: 2px solid var(--chain-accent);
 			outline-offset: 2px;
@@ -16894,11 +16868,6 @@
 						</div>
 					</div>
 				</div>
-
-				<button type="button" class="chain-lib-entry"
-					onclick="setChainProxySource('library', { adoptManualProtocol: true })">
-					🎁 没有自己的代理？直接从CM代理池挑一个（已验可用）
-				</button>
 			</div>
 
 			<div id="chainProxyStatus" class="chain-proxy-status"></div>
