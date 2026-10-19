@@ -1937,7 +1937,9 @@
 		}
 
 		@keyframes version-update-dot-pulse {
-			0%, 100% {
+
+			0%,
+			100% {
 				transform: scale(1);
 				box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.3), 0 0 8px rgba(245, 158, 11, 0.75);
 			}
@@ -2087,6 +2089,7 @@
 		}
 
 		@keyframes egg-tremble {
+
 			0%,
 			100% {
 				transform: translate(0, 0);
@@ -2120,6 +2123,7 @@
 		}
 
 		@media (prefers-reduced-motion: reduce) {
+
 			.btn-version-copy.easter-egg-shaking,
 			.btn-version-copy.egg-release {
 				animation: none;
@@ -7234,6 +7238,7 @@
 				opacity: 0;
 				transform: translateY(6px);
 			}
+
 			to {
 				opacity: 1;
 				transform: translateY(0);
@@ -9891,6 +9896,7 @@
 
 		/* 集中的小屏幕适配：保持桌面布局不变，仅降低平板和手机端的信息密度 */
 		@media (max-width: 768px) {
+
 			html,
 			body {
 				max-width: 100%;
@@ -10591,6 +10597,7 @@
 		}
 
 		@media (min-width: 481px) and (max-width: 768px) {
+
 			.network-cards-container,
 			.latency-cards {
 				grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -11006,7 +11013,8 @@
 								<input type="text" id="grpcUserAgent"
 									title="用于客户端发起 gRPC 请求时的 User-Agent。&#10;Clash/Mihomo 内核使用默认 UA 时，可能被 Cloudflare 误判为 DDoS 异常流量并拦截。&#10;若客户端为 Clash/Mihomo，请务必设置此项。"
 									onchange="markModified('config')">
-								<button type="button" class="grpc-ua-action" onclick="fillCurrentGrpcUA()">获取当前UA</button>
+								<button type="button" class="grpc-ua-action"
+									onclick="fillCurrentGrpcUA()">获取当前UA</button>
 							</div>
 						</div>
 
@@ -11478,7 +11486,8 @@
 						<div class="form-group" id="expandGroup" style="display: none;">
 							<div class="input-wrapper">
 								<div class="checkbox-group">
-									<input type="checkbox" id="expand" title="展开规则全文，输出完整分流规则列表" onchange="markModified('convert')">
+									<input type="checkbox" id="expand" title="展开规则全文，输出完整分流规则列表"
+										onchange="markModified('convert')">
 									<label for="expand" class="checkbox-label" title="展开规则全文，输出完整分流规则列表">展开规则全文</label>
 								</div>
 							</div>
@@ -11643,7 +11652,8 @@
 						class="version-state-tip is-outdated">需要更新</span></p>
 			</div>
 			<div class="version-info-actions">
-				<button type="button" id="versionCopyBtn" class="btn btn-version-copy" onclick="copyLatestWorkerSourceToClipboard()">📋
+				<button type="button" id="versionCopyBtn" class="btn btn-version-copy"
+					onclick="copyLatestWorkerSourceToClipboard()">📋
 					复制最新Worker.js源码 到剪贴板</button>
 				<button type="button" class="btn btn-version-download" onclick="openLatestPagesZipDownload()">📦
 					下载最新Pages.zip源码 上传部署</button>
@@ -11708,7 +11718,9 @@
 			<div class="alpn-content" style="text-align: left;">
 				<p class="alpn-text">您当前选择的 ALPN 选项为「<span id="alpnPendingLabel"></span>」。ALPN
 					用于显式指定节点所使用的应用层协议优先级，属于<strong>高级配置项</strong>。</p>
-				<p class="alpn-text">设置不当可能导致节点与您的客户端或网络环境不兼容，<strong>最坏情况下节点将无法建立连接</strong>。如果您不确定该选项的含义与影响，建议保持默认的「客户端自动协商」，由客户端自行完成协议协商。</p>
+				<p class="alpn-text">
+					设置不当可能导致节点与您的客户端或网络环境不兼容，<strong>最坏情况下节点将无法建立连接</strong>。如果您不确定该选项的含义与影响，建议保持默认的「客户端自动协商」，由客户端自行完成协议协商。
+				</p>
 			</div>
 			<div class="alpn-buttons">
 				<button type="button" class="btn btn-confirm-alpn btn-confirm-reset"
@@ -11728,12 +11740,16 @@
 			</div>
 			<div class="ech-content" style="text-align: left;">
 				<p class="ech-text">您已开启 ECH，但当前选择的浏览器指纹「<span id="echConflictFingerprint"></span>」不支持 ECH。</p>
-				<p class="ech-text">ECH（Encrypted ClientHello）仅在 <strong>chrome / firefox</strong> 指纹下生效。请选择处理方式：切换到支持的浏览器指纹以保留 ECH，或关闭 ECH。</p>
+				<p class="ech-text">ECH（Encrypted ClientHello）仅在 <strong>chrome / firefox</strong>
+					指纹下生效。请选择处理方式：切换到支持的浏览器指纹以保留 ECH，或关闭 ECH。</p>
 			</div>
 			<div class="ech-buttons">
-				<button type="button" class="btn btn-ech-option btn-ech-chrome" onclick="resolveECHConflict('chrome')">使用 chrome 指纹并开启 ECH</button>
-				<button type="button" class="btn btn-ech-option btn-ech-firefox" onclick="resolveECHConflict('firefox')">使用 firefox 指纹并开启 ECH</button>
-				<button type="button" class="btn btn-ech-option btn-ech-disable" onclick="resolveECHConflict('disable')">关闭 ECH</button>
+				<button type="button" class="btn btn-ech-option btn-ech-chrome"
+					onclick="resolveECHConflict('chrome')">使用 chrome 指纹并开启 ECH</button>
+				<button type="button" class="btn btn-ech-option btn-ech-firefox"
+					onclick="resolveECHConflict('firefox')">使用 firefox 指纹并开启 ECH</button>
+				<button type="button" class="btn btn-ech-option btn-ech-disable"
+					onclick="resolveECHConflict('disable')">关闭 ECH</button>
 			</div>
 		</div>
 	</div>
@@ -11930,9 +11946,11 @@
 					<span class="optimize-card-tag tag-pro">✅ 优点：无需安装，即开即用</span>
 					<span class="optimize-card-tag tag-con">⚠️ 缺点：易受运营商阻断，阻断时无法使用</span>
 				</button>
-				<button type="button" class="optimize-start-card optimize-card-domain" onclick="chooseOnlineDomainOptimize()">
+				<button type="button" class="optimize-start-card optimize-card-domain"
+					onclick="chooseOnlineDomainOptimize()">
 					<span class="optimize-card-icon">🛰️</span>
-					<span class="optimize-card-title">在线优选域名<span class="optimize-card-badge optimize-card-badge-orange">稳定</span></span>
+					<span class="optimize-card-title">在线优选域名<span
+							class="optimize-card-badge optimize-card-badge-orange">稳定</span></span>
 					<span class="optimize-card-desc">访问官方在线优选域名站点，直接使用现成的优选结果，无需自己操作</span>
 					<span class="optimize-card-tag tag-pro">✅ 优点：开箱即用，一劳永逸</span>
 					<span class="optimize-card-tag tag-con">⚠️ 缺点：更换网络运营商环境后需重新优选</span>
@@ -11955,10 +11973,14 @@
 			<h2 class="local-optimize-title">💻 本地优选工具</h2>
 			<p class="local-optimize-subtitle">选择一款工具，点击「前往 GitHub」即可在新窗口查看与下载</p>
 			<div class="local-ui-filter" id="localUiFilter">
-				<button type="button" class="local-ui-filter-btn is-active" data-ui="all" onclick="setLocalUiFilter('all')">全部</button>
-				<button type="button" class="local-ui-filter-btn" data-ui="webui" onclick="setLocalUiFilter('webui')">🌐 网页界面</button>
-				<button type="button" class="local-ui-filter-btn" data-ui="gui" onclick="setLocalUiFilter('gui')">🖥️ 图形界面</button>
-				<button type="button" class="local-ui-filter-btn" data-ui="cli" onclick="setLocalUiFilter('cli')">⌨️ 命令行CLI</button>
+				<button type="button" class="local-ui-filter-btn is-active" data-ui="all"
+					onclick="setLocalUiFilter('all')">全部</button>
+				<button type="button" class="local-ui-filter-btn" data-ui="webui" onclick="setLocalUiFilter('webui')">🌐
+					网页界面</button>
+				<button type="button" class="local-ui-filter-btn" data-ui="gui" onclick="setLocalUiFilter('gui')">🖥️
+					图形界面</button>
+				<button type="button" class="local-ui-filter-btn" data-ui="cli" onclick="setLocalUiFilter('cli')">⌨️
+					命令行CLI</button>
 			</div>
 			<div id="localOptimizeToolList" class="local-optimize-tools"><!-- 动态渲染 --></div>
 			<div class="local-optimize-footer">欢迎开源优选项目投稿</div>
@@ -14639,25 +14661,25 @@
 					const completed = entries.filter(({ info }) => info && info.status === "done");
 					const nonCn = completed.filter(({ info }) => !info.allowed);
 
-				if (nonCn.length) {
+					if (nonCn.length) {
+						return {
+							kind: "non-cn",
+							heading: "红牌警告",
+							title: "检测到当前网络出口不是 CN 直连",
+							message: "请确认浏览器当前网络是否经过了 代理、VPN 或 境外网络，\n在线优选仅有 CN 直连网络环境才可以实现！\n当前网络环境无法进行在线优选，可尝试使用「本地优选」。",
+							rows: nonCn,
+							details: completed
+						};
+					}
+
 					return {
-						kind: "non-cn",
-						heading: "红牌警告",
-						title: "检测到当前网络出口不是 CN 直连",
-						message: "请确认浏览器当前网络是否经过了 代理、VPN 或 境外网络，\n在线优选仅有 CN 直连网络环境才可以实现！\n当前网络环境无法进行在线优选，可尝试使用「本地优选」。",
-						rows: nonCn,
+						kind: "request-failed",
+						heading: "黄牌警告",
+						title: "优选域名请求失败",
+						message: "当前网络环境无法进行在线优选，但可尝试使用「本地优选」。\n请自行检查网络环境，确保优选域名可访问。",
+						rows: entries,
 						details: completed
 					};
-				}
-
-				return {
-					kind: "request-failed",
-					heading: "黄牌警告",
-					title: "优选域名请求失败",
-					message: "当前网络环境无法进行在线优选，但可尝试使用「本地优选」。\n请自行检查网络环境，确保优选域名可访问。",
-					rows: entries,
-					details: completed
-				};
 				}
 
 				function renderNetworkWarning(context) {
@@ -16829,16 +16851,14 @@
 
 				<div class="api-form-row-item chain-lib-field">
 					<label for="chainLibRegionSelect">目标地区:</label>
-					<select id="chainLibRegionSelect" title="选择代理所在地区，选后自动测速"
-						onchange="onChainLibRegionChange()">
+					<select id="chainLibRegionSelect" title="选择代理所在地区，选后自动测速" onchange="onChainLibRegionChange()">
 						<option value="">正在加载...</option>
 					</select>
 				</div>
 
 				<div class="api-form-row-item chain-lib-field">
 					<label for="chainLibProxySelect">选择代理:</label>
-					<select id="chainLibProxySelect" title="可用代理按延迟排序，灰色为不可用"
-						onchange="onChainLibProxySelectChange()">
+					<select id="chainLibProxySelect" title="可用代理按延迟排序，灰色为不可用" onchange="onChainLibProxySelectChange()">
 						<option value="">请先选择地区</option>
 					</select>
 				</div>
@@ -16867,7 +16887,8 @@
 								<option value="sstp">sstp</option>
 							</select>
 							<span class="proxy-protocol-separator">://</span>
-							<input type="text" id="chainProxyAddress" title="链式代理地址" placeholder="user:pass@127.0.0.1:1080"
+							<input type="text" id="chainProxyAddress" title="链式代理地址"
+								placeholder="user:pass@127.0.0.1:1080"
 								oninput="sanitizeChainProxyAddressInput(); updateChainProxyVerifyState()"
 								onchange="sanitizeChainProxyAddressInput(); updateChainProxyVerifyState()">
 						</div>
@@ -17850,7 +17871,8 @@
 				</ol>
 			</div>
 			<div class="grpc-modal-actions">
-				<button type="button" class="btn grpc-modal-confirm-btn" onclick="hideTransportGrpcTooltip()">我已开启 gRPC</button>
+				<button type="button" class="btn grpc-modal-confirm-btn" onclick="hideTransportGrpcTooltip()">我已开启
+					gRPC</button>
 			</div>
 		</div>
 	</div>
@@ -27642,10 +27664,12 @@
 			setStatus('status-overseas', 'loading');
 			// API 配置：URL + 字段映射
 			const apis = [
+				/*
 				{
 					url: `https://api.ipapi.is`,
 					parse: d => ({ ip: d.ip, loc: `${d.cc || '未知'} AS${d.asn_num || ''} ${d.asn_org || ''}`.trim() })
 				},
+				*/
 				{
 					url: `https://api.cmliussss.net/api/ipinfo`,
 					parse: d => ({ ip: d.ip, loc: `${d.country_code || '未知'} ${d.asn || ''} ${d.as_name || ''}`.trim() })
