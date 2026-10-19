@@ -16784,7 +16784,8 @@
 				<div class="api-form-row-item">
 					<label for="chainProxyHost">优选域名/IP:</label>
 					<div class="chain-proxy-preferred-wrapper">
-						<input type="text" id="chainProxyHost" title="优选域名/IP" placeholder="当前网页域名">
+						<input type="text" id="chainProxyHost" title="优选域名/IP" placeholder="当前网页域名"
+							onpaste="handleChainProxyHostPaste(event)" onchange="sanitizeChainProxyHostInput()">
 						<span class="proxy-protocol-separator">:</span>
 						<input type="text" id="chainProxyPort" title="优选端口 1~65535，可留空" inputmode="numeric"
 							placeholder="可选" oninput="normalizeChainProxyPortInput()">
@@ -24474,6 +24475,74 @@
 			portInput.value = value;
 		}
 
+		// 把 "host:port" / "[IPv6]:port" / "https://host:port/path" 拆成主机与端口；
+		// 裸 IPv6（多个冒号、无方括号）不拆，避免把地址拆坏
+		function splitChainProxyHostPort(rawValue) {
+			let value = String(rawValue == null ? '' : rawValue).trim();
+			if (!value) return { host: '', port: '' };
+
+			value = value.replace(/：/g, ':');                       // 全角冒号
+			value = value.replace(/^[a-z][a-z0-9+.-]*:\/\//i, '');    // 误粘的协议前缀
+			value = value.replace(/[/?#].*$/, '').trim();             // 尾随路径/参数
+			if (!value) return { host: '', port: '' };
+
+			const bracketed = value.match(/^(\[[^\]]+\])\s*:\s*(\d{1,5})$/);
+			if (bracketed && Number(bracketed[2]) >= 1 && Number(bracketed[2]) <= 65535) {
+				return { host: bracketed[1], port: bracketed[2] };
+			}
+
+			if ((value.match(/:/g) || []).length !== 1) return { host: value, port: '' };
+
+			const colonIndex = value.indexOf(':');
+			const host = value.slice(0, colonIndex).trim();
+			const port = value.slice(colonIndex + 1).trim();
+			if (!host) return { host: value, port: '' };
+			if (!port) return { host, port: '' };
+			if (!/^\d{1,5}$/.test(port)) return { host: value, port: '' };
+			const portNumber = Number(port);
+			if (portNumber < 1 || portNumber > 65535) return { host: value, port: '' };
+			return { host, port };
+		}
+
+		function sanitizeChainProxyHostInput() {
+			const hostInput = document.getElementById('chainProxyHost');
+			if (!hostInput) return;
+
+			const raw = String(hostInput.value || '');
+			const parsed = splitChainProxyHostPort(raw);
+			if (parsed.host !== raw) {
+				hostInput.value = parsed.host;
+			}
+			if (!parsed.port) return;
+
+			const portInput = document.getElementById('chainProxyPort');
+			if (portInput) {
+				portInput.value = parsed.port;
+				normalizeChainProxyPortInput();
+			}
+		}
+
+		function handleChainProxyHostPaste(event) {
+			const clipboard = event.clipboardData || window.clipboardData;
+			const text = clipboard ? clipboard.getData('text') : '';
+			if (!text) return;
+
+			const parsed = splitChainProxyHostPort(text);
+			// 没识别出端口就交给浏览器默认粘贴，失焦时再统一清洗
+			if (!parsed.port) return;
+
+			event.preventDefault();
+			const hostInput = document.getElementById('chainProxyHost');
+			if (!hostInput) return;
+			hostInput.value = parsed.host;
+
+			const portInput = document.getElementById('chainProxyPort');
+			if (portInput) {
+				portInput.value = parsed.port;
+				normalizeChainProxyPortInput();
+			}
+		}
+
 		function showChainProxyStatus(message, type = 'info', asHtml = false) {
 			const statusEl = document.getElementById('chainProxyStatus');
 			if (!statusEl) return;
@@ -24714,6 +24783,8 @@
 		}
 
 		function addChainProxyNode() {
+			// 兜底：若用户粘贴后没触发 change（例如直接点添加），这里再清洗一次
+			sanitizeChainProxyHostInput();
 			const addBtn = document.getElementById('btnAddChainProxy');
 			const validProtocol = addBtn?.dataset.validProtocol || '';
 			const validAddress = addBtn?.dataset.validAddress || '';
