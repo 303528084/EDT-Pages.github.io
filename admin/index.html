@@ -28015,16 +28015,35 @@
 		const NETWORK_BACKGROUND_IDLE_TIMEOUT_MS = 2500;
 		const NETWORK_BACKGROUND_TASK_GAP_MS = 420;
 		const NETWORK_BACKGROUND_TASK_TIMEOUT_MS = (NETWORK_API_TIMEOUT_MS * 3) + 1200;
+		const NETWORK_DOM_READY_TIMEOUT_MS = 2000;
 		let networkInfoScheduled = false;
 		let networkInfoLoadPromise = null;
 
-		function waitForPageComplete() {
-			if (document.readyState === 'complete') {
+		// 只等 DOM 解析完成（DOMContentLoaded），绝不等 window.load：
+		// Google Fonts 等第三方子资源在国内网络下会挂到 TCP 超时，
+		// 把 load 事件推迟几十秒，导致「当前网络信息」一直不开始探测。
+		function waitForDomReady(timeoutMs = NETWORK_DOM_READY_TIMEOUT_MS) {
+			if (document.readyState !== 'loading') {
 				return Promise.resolve();
 			}
 
 			return new Promise(resolve => {
-				window.addEventListener('load', resolve, { once: true });
+				let settled = false;
+				let timerId = null;
+
+				const finish = () => {
+					if (settled) return;
+					settled = true;
+					if (timerId) {
+						clearTimeout(timerId);
+					}
+					document.removeEventListener('DOMContentLoaded', finish);
+					resolve();
+				};
+
+				document.addEventListener('DOMContentLoaded', finish);
+				// 兜底：DOMContentLoaded 万一缺失，也不会让探测永远悬着
+				timerId = setTimeout(finish, timeoutMs);
 			});
 		}
 
@@ -28052,7 +28071,7 @@
 			networkInfoScheduled = true;
 
 			(async () => {
-				await waitForPageComplete();
+				await waitForDomReady();
 				if (delayMs > 0) {
 					await waitForDelay(delayMs);
 				}
@@ -29220,7 +29239,7 @@
 			return networkInfoLoadPromise;
 		}
 
-		// 页面加载完成并进入空闲状态后，在后台获取网络信息，避免影响前台初始化
+		// DOM 解析完成并进入空闲状态后，在后台获取网络信息，避免影响前台初始化（不等 window.load，防止被 Google Fonts 拖住）
 		scheduleNetworkInfoLoad();
 
 		// IP 点击查询详情功能
